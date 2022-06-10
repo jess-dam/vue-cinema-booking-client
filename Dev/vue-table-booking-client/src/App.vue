@@ -64,4 +64,12 @@ textarea {
     width: 70%;
     margin: 30px;
 }
+
+select {
+    min-width: 100px;
+    width: 70%;
+    margin: 30px;
+}
+
+
 </style>

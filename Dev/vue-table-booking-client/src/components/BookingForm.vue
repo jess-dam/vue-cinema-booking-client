@@ -13,7 +13,11 @@
             <input placeholder='Date' v-model='date'/>
 
             <label>Screening</label>
-            <input placeholder='Time' v-model='screeningTime'/>
+            <select v-model='screeningTime'>
+                   <option v-for='option in screenTimesOptions' :value='option.value'>
+                        {{ option.text }}
+                    </option>
+            </select>
 
             <label>Notes</label>
             <textarea placeholder='Add any special requests here' v-model='notes'/>
@@ -23,40 +27,35 @@
     </div>
 </template>
 
-<script>
-export default {
-    // const ticketBatchLimit = 10
-    // const ticketBatchOptions = () => {
-    //     let options = []
-    //     for ( let x=1; x <= ticketBatchLimit; x++) {
-    //         options.push({ text: `${x}`, value: x })
-    //     }
-    //     return options
-    // }
+<script setup>
+import { ref, onMounted } from 'vue'
 
-    name: 'bookingForm',
-    data() {
-        return {
-            ticketBatchLimit: 10,
-            numberOfTicketsOptions:[],
-            screenTimes: [ '10:00', '10:30', '12:00', '13:00', '14:00', '18:00'],
-            numberOfTickets: '1',
-            date: '',
-            screeningTime: '',
-            notes: ''
-        }
-    },
-    methods: {
-        submit () {
-            const { numberOfTickets, date, screeningTime, notes } = this
-            localStorage.setItem('ticketRequest', JSON.stringify({
-                numberOfTickets,
-                date,
-                screeningTime,
-                notes 
-            }))
-        } 
-    }
+const numberOfTickets = ref(1)
+const date = ref('')
+const screeningTime = ref('')
+const notes = ref('')
+
+const ticketBatches = ['1', '2', '3', '4', '5']
+const numberOfTicketsOptions = getSelectOptionsForList(ticketBatches)
+const screenTimes = [ '10:00', '10:30', '12:00', '13:00', '14:00', '18:00']
+const screenTimesOptions = getSelectOptionsForList(screenTimes)
+
+function getSelectOptionsForList (options) {
+    return options.map( o => ({ text: o.toString(), value: o }))
 }
+
+function submit() {
+    ('Form submitted!')    
+    // localStorage.setItem('ticketRequest', JSON.stringify({
+    //     numberOfTickets,
+    //     date,
+    //     screeningTime,
+    //     notes 
+    // }))
+} 
+
+onMounted(() => {
+    console.log(date)
+})
 </script>
 
